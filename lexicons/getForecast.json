@@ -1,0 +1,69 @@
+{
+  "lexicon": 1,
+  "id": "garden.lexicon.surprising-scallop.getForecast",
+  "defs": {
+    "main": {
+      "type": "query",
+      "description": "Get upcoming weather forecast periods for an H3 geographic cell (resolution 4–6).",
+      "parameters": {
+        "type": "params",
+        "required": ["h3Index"],
+        "properties": {
+          "h3Index": {
+            "type": "string",
+            "description": "H3 cell ID at resolution 4–6."
+          }
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": { "type": "ref", "ref": "#forecastView" }
+      },
+      "errors": [
+        { "name": "InvalidH3Index" },
+        { "name": "UnsupportedResolution" },
+        { "name": "ProviderUnavailable" },
+        { "name": "ProviderTimeout" }
+      ]
+    },
+    "measurement": {
+      "type": "object",
+      "description": "Numeric measurement. ATProto lexicons require integer values; fractional readings from upstream providers are rounded.",
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "integer" },
+        "unit": { "type": "string" }
+      }
+    },
+    "forecastPeriod": {
+      "type": "object",
+      "required": ["name", "startTime", "endTime", "isDaytime", "temperature", "windSpeed"],
+      "properties": {
+        "name": { "type": "string" },
+        "startTime": { "type": "string", "format": "datetime" },
+        "endTime": { "type": "string", "format": "datetime" },
+        "isDaytime": { "type": "boolean" },
+        "temperature": { "type": "ref", "ref": "#measurement" },
+        "precipProbability": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "windSpeed": { "type": "ref", "ref": "#measurement" },
+        "windDirection": { "type": "integer", "minimum": 0, "maximum": 360 },
+        "conditions": { "type": "string" },
+        "detailedForecast": { "type": "string" }
+      }
+    },
+    "forecastView": {
+      "type": "object",
+      "required": ["h3Index", "generatedAt", "provider", "stale", "periods"],
+      "properties": {
+        "h3Index": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "datetime" },
+        "provider": { "type": "string", "knownValues": ["nws", "open-meteo"] },
+        "stale": { "type": "boolean" },
+        "periods": {
+          "type": "array",
+          "items": { "type": "ref", "ref": "#forecastPeriod" }
+        }
+      }
+    }
+  }
+}

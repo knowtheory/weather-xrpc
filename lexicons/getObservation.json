@@ -1,0 +1,55 @@
+{
+  "lexicon": 1,
+  "id": "garden.lexicon.surprising-scallop.getObservation",
+  "defs": {
+    "main": {
+      "type": "query",
+      "description": "Get current weather conditions for an H3 geographic cell (resolution 4–6).",
+      "parameters": {
+        "type": "params",
+        "required": ["h3Index"],
+        "properties": {
+          "h3Index": {
+            "type": "string",
+            "description": "H3 cell ID at resolution 4–6."
+          }
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": { "type": "ref", "ref": "#observationView" }
+      },
+      "errors": [
+        { "name": "InvalidH3Index" },
+        { "name": "UnsupportedResolution" },
+        { "name": "ProviderUnavailable" },
+        { "name": "ProviderTimeout" }
+      ]
+    },
+    "measurement": {
+      "type": "object",
+      "description": "Numeric measurement. ATProto lexicons require integer values; fractional readings from upstream providers are rounded.",
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "integer" },
+        "unit": { "type": "string" }
+      }
+    },
+    "observationView": {
+      "type": "object",
+      "required": ["h3Index", "observedAt", "provider", "stale", "temperature", "humidity", "windSpeed"],
+      "properties": {
+        "h3Index": { "type": "string" },
+        "observedAt": { "type": "string", "format": "datetime" },
+        "provider": { "type": "string", "knownValues": ["nws", "open-meteo"] },
+        "stale": { "type": "boolean" },
+        "temperature": { "type": "ref", "ref": "#measurement" },
+        "humidity": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "windSpeed": { "type": "ref", "ref": "#measurement" },
+        "windDirection": { "type": "integer", "minimum": 0, "maximum": 360 },
+        "conditions": { "type": "string" },
+        "icon": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}

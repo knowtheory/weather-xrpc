@@ -1,0 +1,53 @@
+{
+  "lexicon": 1,
+  "id": "garden.lexicon.surprising-scallop.getSolarTimes",
+  "defs": {
+    "main": {
+      "type": "query",
+      "description": "Get solar event times for an H3 cell on a given date. Computed from the cell centroid — no upstream API required.",
+      "parameters": {
+        "type": "params",
+        "required": ["h3Index"],
+        "properties": {
+          "h3Index": {
+            "type": "string",
+            "description": "H3 cell ID at resolution 4–6."
+          },
+          "date": {
+            "type": "string",
+            "description": "ISO 8601 date (e.g. '2026-05-01'). Defaults to today UTC."
+          }
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": { "type": "ref", "ref": "#solarTimesView" }
+      },
+      "errors": [
+        { "name": "InvalidH3Index" },
+        { "name": "UnsupportedResolution" },
+        { "name": "InvalidDate" }
+      ]
+    },
+    "solarTimesView": {
+      "type": "object",
+      "required": ["h3Index", "date", "dawn", "sunrise", "solarNoon", "sunset", "dusk", "nadir"],
+      "properties": {
+        "h3Index": { "type": "string" },
+        "date": { "type": "string" },
+        "astronomicalDawn": { "type": "string", "format": "datetime" },
+        "nauticalDawn": { "type": "string", "format": "datetime" },
+        "dawn": { "type": "string", "format": "datetime" },
+        "sunrise": { "type": "string", "format": "datetime" },
+        "goldenHourMorningEnd": { "type": "string", "format": "datetime" },
+        "solarNoon": { "type": "string", "format": "datetime" },
+        "goldenHourEveningStart": { "type": "string", "format": "datetime" },
+        "sunset": { "type": "string", "format": "datetime" },
+        "dusk": { "type": "string", "format": "datetime" },
+        "nauticalDusk": { "type": "string", "format": "datetime" },
+        "astronomicalDusk": { "type": "string", "format": "datetime" },
+        "nadir": { "type": "string", "format": "datetime" }
+      }
+    }
+  }
+}
