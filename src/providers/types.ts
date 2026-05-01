@@ -29,6 +29,7 @@ export interface ForecastPeriod {
   temperature: Temperature
   precipProbability?: number
   windSpeed: WindSpeed
+  windDirection?: number
   conditions?: string
   detailedForecast?: string
 }
