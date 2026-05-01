@@ -31,7 +31,7 @@
     },
     "solarTimesView": {
       "type": "object",
-      "required": ["h3Index", "date", "dawn", "sunrise", "solarNoon", "sunset", "dusk", "nadir"],
+      "required": ["h3Index", "date", "nadir"],
       "properties": {
         "h3Index": { "type": "string" },
         "date": { "type": "string" },
