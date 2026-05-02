@@ -6,3 +6,4 @@ dist/
 *.db-journal
 .env
 .env.local
+.claude/settings.local.json
