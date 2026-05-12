@@ -1,5 +1,13 @@
 # weather-xrpc
 
+## Runtime
+
+Claude runs inside a [workcell](workcell.md) sandbox, both for interactive
+sessions and headless subagent dispatch. See `workcell.md` for the launch
+commands; `scripts/dispatch-subagent.sh` is the one-shot dispatch wrapper.
+Do not introduce host-trust-widening alternatives (raw `docker run` with
+`~/.claude` bind-mounted, SSH agent forwarded, or `ANTHROPIC_API_KEY` in env).
+
 ## GitHub access (workcell / container environments)
 
 When running inside a workcell container, SSH access to GitHub is not available. Before pushing, switch the remote to HTTPS:
