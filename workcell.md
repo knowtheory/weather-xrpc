@@ -215,13 +215,6 @@ workcell --gc                               # clean stale scratch / cache
    still open — it needs prompt injection at `session start` and a structured
    result-return path; until then, multi-turn lives in the interactive
    attach/send loop.
-4. **Retire `claude-yolo.sh`**: with interactive yolo (`--mode development`)
-   and one-shot subagent dispatch both working through workcell, the script
-   no longer covers anything workcell does not. Outstanding gating items
-   before deletion: (a) confirm no scripts or muscle-memory invocations
-   depend on its `~/.claude` bind-mount or SSH-agent forwarding, (b) workcell
-   session metadata is being kept rather than discarded after each run
-   (audit log lives at `~/.local/state/workcell/.../workcell.audit.log`).
-   The subagent-dispatch wrapper at `scripts/dispatch-subagent.sh` covers
-   the headless one-shot path that `claude-yolo.sh` never had a clean answer
-   for.
+4. **Retire `claude-yolo.sh`**: done — script and its backing `Dockerfile`
+   (`ENTRYPOINT ["claude"] CMD ["--dangerously-skip-permissions"]`) both
+   deleted; `CLAUDE.md` points at workcell as the runtime.
